@@ -1,5 +1,30 @@
 from transformers import pipeline, AutoTokenizer
 from collections import Counter
+import firebase_admin
+from firebase_admin import credentials, storage 
+import os
+
+cred = credentials.Certificate("./firebaseConfig.json")
+firebase_admin.initialize_app(cred, {
+    'storageBucket': 'gs://sentimentanalyser-18331.appspot.com'
+})
+
+bucket = storage.bucket()
+
+def download_model_from_firebase(blob_name, destination_file_name):
+    """Downloads a file from Firebase storage."""
+    blob = bucket.blob(blob_name)
+    blob.download_to_filename(destination_file_name)
+    print(f"Blob {blob_name} downloaded to {destination_file_name}.")
+
+model_dir = 'model'
+# os.makedirs(model_dir, exist_ok=True)
+# download_model_from_firebase('model/model.safetensors', os.path.join(model_dir, 'model.safetensors'))
+# download_model_from_firebase('model/config.json', os.path.join(model_dir, 'config.json'))
+# download_model_from_firebase('model/tokenizer_config.json', os.path.join(model_dir, 'tokenizer_config.json'))
+# download_model_from_firebase('model/vocab.txt', os.path.join(model_dir, 'vocab.txt'))
+# download_model_from_firebase('model/special_tokens_map.json', os.path.join(model_dir, 'special_tokens_map.json'))
+# download_model_from_firebase('model/tokenizer.json', os.path.join(model_dir, 'tokenizer.json'))
 
 # Initialize the sentiment analysis pipeline and tokenizer
 model_name = "nlptown/bert-base-multilingual-uncased-sentiment"

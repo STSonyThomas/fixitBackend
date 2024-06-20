@@ -1,7 +1,7 @@
 from flask import Flask, request, jsonify
 import os
 from sentiment_analysis import analyze_sentiment, aggregate_results
-os.environ["TRANSFORMERS_CACHE"] = "./transformerCache"
+
 app = Flask(__name__)
 
 @app.route("/")
@@ -37,4 +37,4 @@ def upload_file():
         return jsonify(response)
 
 if __name__ == '__main__':
-    app.run(debug=True)
+    app.run(host='0.0.0.0',debug=True)
