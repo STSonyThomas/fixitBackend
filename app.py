@@ -1,8 +1,13 @@
 from flask import Flask, request, jsonify
 import os
 from sentiment_analysis import analyze_sentiment, aggregate_results
-
+os.environ["TRANSFORMERS_CACHE"] = "./transformerCache"
 app = Flask(__name__)
+
+@app.route("/")
+def hello_world():
+  """Responds with a hello message."""
+  return "Hello from your Flask backend on Vercel!"
 
 @app.route('/upload', methods=['POST'])
 def upload_file():
