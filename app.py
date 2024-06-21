@@ -6,7 +6,7 @@ app = Flask(__name__)
 
 @app.route("/")
 def hello_world():
-  """Responds with a hello message."""
+  
   return "Hello from your Flask backend on Vercel!"
 
 @app.route('/upload', methods=['POST'])
@@ -25,7 +25,7 @@ def upload_file():
         with open(file_path, "r", encoding="utf-8") as f:
             transcript = f.read()
 
-        # Perform sentiment analysis
+        
         sentiment_results = analyze_sentiment(transcript)
         aggregated_results = aggregate_results(sentiment_results)
 

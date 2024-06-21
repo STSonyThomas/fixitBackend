@@ -12,7 +12,7 @@ firebase_admin.initialize_app(cred, {
 bucket = storage.bucket()
 
 def download_model_from_firebase(blob_name, destination_file_name):
-    """Downloads a file from Firebase storage."""
+    
     blob = bucket.blob(blob_name)
     blob.download_to_filename(destination_file_name)
     print(f"Blob {blob_name} downloaded to {destination_file_name}.")
@@ -34,10 +34,7 @@ tokenizer = AutoTokenizer.from_pretrained(model_name)
 special_tokens_count = len(tokenizer.build_inputs_with_special_tokens([]))
 
 def chunk_text(text, chunk_size=512, overlap=50):
-    """
-    Splits the text into chunks of chunk_size with overlap to handle context better.
-    Ensures that each chunk does not exceed the maximum token length.
-    """
+    
     tokens = text.split()
     chunks = []
     current_chunk = []
@@ -47,10 +44,10 @@ def chunk_text(text, chunk_size=512, overlap=50):
     for token in tokens:
         current_chunk.append(token)
         if len(tokenizer(" ".join(current_chunk))['input_ids']) > adjusted_chunk_size:
-            # Remove the last token and save the current chunk
+            
             current_chunk.pop()
             chunks.append(" ".join(current_chunk))
-            # Start a new chunk with overlap
+            
             current_chunk = current_chunk[-overlap:] if overlap < len(current_chunk) else current_chunk
 
     if current_chunk:
@@ -68,10 +65,8 @@ def analyze_sentiment(text):
     return results
 
 def map_star_to_sentiment(star):
-    """
-    Maps star rating to sentiment label.
-    """
-    star_rating = int(star.split()[0])  # Extract the star rating number
+    
+    star_rating = int(star.split()[0])  
     if star_rating in [1, 2]:
         return "negative"
     elif star_rating == 3:
@@ -80,9 +75,7 @@ def map_star_to_sentiment(star):
         return "positive"
     
 def aggregate_results(results):
-    """
-    Aggregates the sentiment analysis results.
-    """
+   
     sentiment_scores = Counter()
     for result in results:
         sentiment_label = map_star_to_sentiment(result['label'])

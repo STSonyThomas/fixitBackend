@@ -1,0 +1,19 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: myflaskapp-deployment
+spec:
+  replicas: 2
+  selector:
+    matchLabels:
+      app: myflaskapp
+  template:
+    metadata:
+      labels:
+        app: myflaskapp
+    spec:
+      containers:
+      - name: backend-container
+        image: gcr.io/fixitai-427016/myflaskapp:latest
+        ports:
+        - containerPort: 5000
